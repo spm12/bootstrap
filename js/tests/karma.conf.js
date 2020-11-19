@@ -33,11 +33,15 @@ const detectBrowsers = {
       return debug ? ['Chrome'] : ['ChromeHeadless']
     }
 
+    if (availableBrowser.includes('Chromium')) {
+      return debug ? ['Chromium'] : ['ChromiumHeadless']
+    }
+
     if (availableBrowser.includes('Firefox')) {
       return debug ? ['Firefox'] : ['FirefoxHeadless']
     }
 
-    throw new Error('Please install Firefox or Chrome')
+    throw new Error('Please install Chrome, Chromium or Firefox')
   }
 }
 
@@ -60,7 +64,10 @@ const conf = {
   },
   files: [
     'node_modules/hammer-simulator/index.js',
-    { pattern: 'js/tests/unit/**/!(jquery).spec.js', watched: !browserStack }
+    {
+      pattern: 'js/tests/unit/**/!(jquery).spec.js',
+      watched: !browserStack
+    }
   ],
   preprocessors: {
     'js/tests/unit/**/*.spec.js': ['rollup']
@@ -114,7 +121,10 @@ if (browserStack) {
   conf.detectBrowsers = detectBrowsers
   conf.files = [
     'node_modules/jquery/dist/jquery.slim.min.js',
-    { pattern: 'js/tests/unit/jquery.spec.js', watched: false }
+    {
+      pattern: 'js/tests/unit/jquery.spec.js',
+      watched: false
+    }
   ]
 } else {
   frameworks.push('detectBrowsers')
